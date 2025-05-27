@@ -8,7 +8,7 @@ OUTCOMES = [
 
 
 class URL(models.Model):
-    loc = models.CharField(max_length=128)
+    loc = models.CharField(max_length=128, unique=True)
     lastmod = models.CharField(max_length=10)
 
     def __str__(self) -> str:
@@ -24,6 +24,9 @@ class Decision(models.Model):
 
 
 class DecisionMeta(models.Model):
+    class Meta:
+        verbose_name_plural = "decision metadata"
+
     citation = models.CharField(max_length=128, null=True, blank=True)
     date = models.CharField(max_length=10, null=True, blank=True)
     docket = models.CharField(max_length=128, null=True, blank=True)
