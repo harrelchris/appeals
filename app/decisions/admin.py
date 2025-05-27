@@ -4,7 +4,15 @@ from .models import URL, Condition, Decision, DecisionMeta
 
 
 class ConditionAdmin(admin.ModelAdmin):
-    pass
+    list_display = [
+        "name",
+        "outcome",
+        "reason",
+    ]
+    list_filter = [
+        "name",
+        "outcome",
+    ]
 
 
 class DecisionAdmin(admin.ModelAdmin):
@@ -12,11 +20,22 @@ class DecisionAdmin(admin.ModelAdmin):
 
 
 class DecisionMetaAdmin(admin.ModelAdmin):
-    pass
+    list_display = [
+        "citation",
+        "date",
+        "docket",
+        "judge",
+    ]
 
 
 class URLAdmin(admin.ModelAdmin):
-    pass
+    list_display = [
+        "loc",
+        "lastmod",
+    ]
+    list_filter = [
+        "lastmod",
+    ]
 
 
 admin.site.register(Condition, ConditionAdmin)
