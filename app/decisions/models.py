@@ -1,6 +1,5 @@
 from django.db import models
 
-
 OUTCOMES = [
     ("granted", "granted"),
     ("denied", "denied"),

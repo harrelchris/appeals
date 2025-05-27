@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import URL, Decision, DecisionMeta, Condition
+from .models import URL, Condition, Decision, DecisionMeta
 
 
 class ConditionAdmin(admin.ModelAdmin):
