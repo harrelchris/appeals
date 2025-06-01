@@ -1,6 +1,10 @@
+beautifulsoup4
+lxml
 django
 django-allauth
 django-debug-toolbar
 django-environ
 psycopg2-binary
+requests
+requests-futures
 ruff
