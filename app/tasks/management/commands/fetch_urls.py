@@ -28,14 +28,14 @@ class Command(BaseCommand):
             urls = self.get_updated_urls(sitemap["loc"])
             updated_urls.extend(urls)
 
-        existing_urls = set(URL.objects.values_list("loc", flat=True))
-        new_urls = [u for u in updated_urls if u["loc"] not in existing_urls]
+            existing_urls = set(URL.objects.values_list("loc", flat=True))
+            new_urls = [u for u in updated_urls if u["loc"] not in existing_urls]
 
-        msg = f"{len(new_urls)} new URLs found."
-        self.stdout.write(self.style.SUCCESS(msg))
+            msg = f"{len(new_urls)} new URLs recorded"
+            self.stdout.write(self.style.SUCCESS(msg))
 
-        records = [URL(**u) for u in new_urls]
-        URL.objects.bulk_create(records)
+            records = [URL(**u) for u in new_urls]
+            URL.objects.bulk_create(records)
 
         task = Task(name=TASK_NAME, success=True)
         task.save()
