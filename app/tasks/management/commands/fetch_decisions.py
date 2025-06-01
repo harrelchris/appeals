@@ -1,10 +1,9 @@
 from concurrent.futures import as_completed
 
+from django.core.management.base import BaseCommand
 from requests_futures.sessions import FuturesSession
 
-from django.core.management.base import BaseCommand
-
-from decisions.models import Decision, URL
+from decisions.models import URL, Decision
 from tasks.models import Task
 
 TASK_NAME = "fetch-decisions"
@@ -22,7 +21,7 @@ class Command(BaseCommand):
         urls = URL.objects.exclude(id__in=Decision.objects.values("url_id"))
         url_list = list(urls)
         chunk_size = 100
-        url_chunks = [url_list[i:i + chunk_size] for i in range(0, len(url_list), chunk_size)]
+        url_chunks = [url_list[i : i + chunk_size] for i in range(0, len(url_list), chunk_size)]
 
         for chunk in url_chunks:
             start = chunk[0].id

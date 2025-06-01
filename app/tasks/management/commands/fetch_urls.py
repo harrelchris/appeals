@@ -1,8 +1,8 @@
 import sys
 
 import bs4
-from django.core.management.base import BaseCommand
 import requests
+from django.core.management.base import BaseCommand
 
 from decisions.models import URL
 from tasks.models import Task
@@ -77,9 +77,11 @@ class Command(BaseCommand):
     def extract_updated_elements(self, elements: bs4.ResultSet) -> list[dict[str, str]]:
         children = []
         for element in elements:
-            children.append({
-                "loc": element.find("loc").text,
-                "lastmod": element.find("lastmod").text,
-            })
+            children.append(
+                {
+                    "loc": element.find("loc").text,
+                    "lastmod": element.find("lastmod").text,
+                }
+            )
         updated_children = [c for c in children if c["lastmod"] > self.last_run_date]
         return updated_children
