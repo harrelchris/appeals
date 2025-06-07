@@ -34,6 +34,20 @@ ruff check --fix
 python manage.py runserver
 ```
 
+## Meilisearch
+
+### Install
+
+```shell
+brew install meilisearch
+```
+
+### Run
+
+```shell
+./scripts/run_meili.sh
+```
+
 ## Docker
 
 ### Build image

@@ -4,6 +4,7 @@ django
 django-allauth
 django-debug-toolbar
 django-environ
+meilisearch
 psycopg2-binary
 requests
 requests-futures

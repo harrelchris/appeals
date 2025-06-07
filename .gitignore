@@ -1,6 +1,7 @@
 .idea/
 .local/
 .media/
+.meili
 .static/
 .venv/
 __pycache__/

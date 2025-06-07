@@ -139,3 +139,7 @@ INTERNAL_IPS = [
     "127.0.0.1",
     "localhost",
 ]
+
+MEILI_HTTP_ADDR = env.str("MEILI_HTTP_ADDR")
+
+MEILI_MASTER_KEY = env.str("MEILI_MASTER_KEY")
