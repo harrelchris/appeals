@@ -1,0 +1,26 @@
+{% extends "decisions/base.html" %}
+
+{% block title %}Decisions{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="my-5">
+      {% if decisions %}
+        Decisions: {{ decisions|length }}
+        <ul class="list-group">
+        {% for decision in decisions %}
+          <li>
+            <a href="{% url 'decisions:detail' pk=decision.id %}">{{ decision.text|truncatechars:50 }}</a>
+            <br>
+            {{ decision.headline|safe }}
+            <br>
+            {{ decision.rank }}
+          </li>
+        {% endfor %}
+        </ul>
+      {% else %}
+        <p>No decisions found.</p>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}
