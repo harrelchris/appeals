@@ -1,0 +1,11 @@
+{% extends "decisions/base.html" %}
+
+{% block title %}Decision{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="my-5">
+      {{ decision.text|linebreaks }}
+    </div>
+  </div>
+{% endblock %}

@@ -13,6 +13,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("auth/", include("allauth.urls")),
     path("", include("index.urls"), name="index"),
+    path("decisions/", include("decisions.urls"), name="decisions"),
 ]
 
 if settings.DEBUG:
