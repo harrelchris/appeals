@@ -26,7 +26,12 @@ class DecisionResultsView(ListView):
     template_name = "decisions/list.html"
     model = Decision
     context_object_name = "decisions"
-    paginate_by = 100
+    paginate_by = 50
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["q"] = self.request.GET.get("q", "")
+        return context
 
     def get_queryset(self):
         q = self.request.GET.get("q", "")
@@ -37,8 +42,9 @@ class DecisionResultsView(ListView):
         headline = SearchHeadline(
             expression=F("text"),
             query=query,
+            start_sel="<mark>",
+            stop_sel="</mark>",
         )
-
         return (
             Decision.objects
             .annotate(rank=SearchRank(F("vector"), query))  # use precomputed vector field

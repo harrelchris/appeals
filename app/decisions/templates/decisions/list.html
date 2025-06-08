@@ -5,19 +5,24 @@
 {% block content %}
   <div class="container">
     <div class="my-5">
+      <p>Found {{ page_obj.paginator.count }} search results for: <span class="fst-italic">{{ q }}</span></p>
       {% if decisions %}
-        Decisions: {{ decisions|length }}
-        <ul class="list-group">
         {% for decision in decisions %}
-          <li>
-            <a href="{% url 'decisions:detail' pk=decision.id %}">{{ decision.text|truncatechars:50 }}</a>
-            <br>
-            {{ decision.headline|safe }}
-            <br>
-            {{ decision.rank }}
-          </li>
+          <div class="card my-3">
+            <div class="card-body">
+              <h5 class="card-title">{{ decision.headline|safe }}</h5>
+              <p class="card-text">{{ decision.text|truncatechars:50 }}</p>
+              <a href="{% url 'decisions:detail' pk=decision.id %}" class="btn btn-outline-primary">Read more</a>
+            </div>
+            <div class="card-footer fw-lighter">
+              Relevancy: {{ decision.rank }}
+            </div>
+          </div>
         {% endfor %}
-        </ul>
+
+        {% if is_paginated %}
+          {% include "components/paginator.html" %}
+        {% endif %}
       {% else %}
         <p>No decisions found.</p>
       {% endif %}
