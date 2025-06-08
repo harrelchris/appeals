@@ -1,5 +1,6 @@
 from django.views.generic import DetailView, ListView, TemplateView
 from django.contrib.postgres.search import SearchHeadline, SearchQuery, SearchRank, SearchVector
+from django.db.models import F
 
 from decisions.models import Decision
 
@@ -29,12 +30,19 @@ class DecisionResultsView(ListView):
 
     def get_queryset(self):
         q = self.request.GET.get("q", "")
-        vector = SearchVector("text")  # can include multiple columns: SearchVector("text", "title")
-        query = SearchQuery(q)
-        headline = SearchHeadline("text", query)
+        query = SearchQuery(
+            value=q,
+            search_type="websearch",
+        )
+        headline = SearchHeadline(
+            expression=F("text"),
+            query=query,
+        )
 
-        # return Decision.objects.filter(text__search=q)
-        # return Decision.objects.annotate(search=vector).filter(search=query)
-        # return Decision.objects.annotate(rank=SearchRank(vector, query)).order_by("-rank")
-        # return Decision.objects.annotate(rank=SearchRank(vector, query)).filter(rank__gte=0.001).order_by("-rank")
-        return Decision.objects.annotate(rank=SearchRank(vector, query)).annotate(headline=headline).filter(rank__gte=0.001).order_by("-rank")
+        return (
+            Decision.objects
+            .annotate(rank=SearchRank(F("vector"), query))  # use precomputed vector field
+            .annotate(headline=headline)
+            .filter(rank__gte=0.001)
+            .order_by("-rank")
+        )

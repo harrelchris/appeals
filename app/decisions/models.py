@@ -1,3 +1,5 @@
+from django.contrib.postgres.indexes import GinIndex
+from django.contrib.postgres.search import SearchVector, SearchVectorField
 from django.db import models
 
 OUTCOMES = [
@@ -17,10 +19,20 @@ class URL(models.Model):
 
 class Decision(models.Model):
     text = models.TextField()
+    vector = SearchVectorField(null=True)
     url = models.ForeignKey(URL, on_delete=models.CASCADE)
+
+    class Meta:
+        indexes = [
+            GinIndex(fields=["vector"]),
+        ]
 
     def __str__(self) -> str:
         return f"{self.text[:100]}..."
+
+    def save(self, *args, **kwargs):
+        self.vector = SearchVector("text")
+        super().save(*args, **kwargs)
 
 
 class DecisionMeta(models.Model):
