@@ -3,23 +3,20 @@ from django.contrib.postgres.search import SearchVector
 from decisions.models import Decision
 from tasks.models import Task
 
-TASK_NAME = "vectorize-decisions"
+TASK_NAME = "generate-vectors"
 
 
 class Command(BaseCommand):
-    help = "Populate or update the search_vector field for full-text search"
+    help = "Generate vectors for the decision text."
 
     def handle(self, *args, **options):
         qs = Decision.objects.filter(vector=None)
         count = qs.count()
 
-        self.stdout.write(f"Updating search_vector for {count} decisions...")
-
-        for decision in qs:
-            decision.vector = SearchVector("text")
-            decision.save()
-
-        self.stdout.write(self.style.SUCCESS("Done updating search_vector field."))
+        qs.update(vector=SearchVector("text"))
 
         task = Task(name=TASK_NAME, success=True)
         task.save()
+
+        message = f"Generated vectors for {count} decisions"
+        self.stdout.write(self.style.SUCCESS(message))
