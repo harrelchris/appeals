@@ -15,7 +15,8 @@ class DecisionListView(ListView):
     template_name = "decisions/list.html"
     model = Decision
     context_object_name = "decisions"
-    paginate_by = 100
+    paginate_by = 50
+    ordering = "-date"
 
 
 class DecisionSearchView(TemplateView):
