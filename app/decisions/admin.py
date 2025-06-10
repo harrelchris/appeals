@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import URL, Condition, Decision, DecisionMeta
+from .models import URL, Condition, Decision
 
 
 class ConditionAdmin(admin.ModelAdmin):
@@ -19,15 +19,6 @@ class DecisionAdmin(admin.ModelAdmin):
     pass
 
 
-class DecisionMetaAdmin(admin.ModelAdmin):
-    list_display = [
-        "citation",
-        "date",
-        "docket",
-        "judge",
-    ]
-
-
 class URLAdmin(admin.ModelAdmin):
     list_display = [
         "loc",
@@ -40,5 +31,4 @@ class URLAdmin(admin.ModelAdmin):
 
 admin.site.register(Condition, ConditionAdmin)
 admin.site.register(Decision, DecisionAdmin)
-admin.site.register(DecisionMeta, DecisionMetaAdmin)
 admin.site.register(URL, URLAdmin)

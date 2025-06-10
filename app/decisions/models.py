@@ -20,6 +20,12 @@ class URL(models.Model):
 class Decision(models.Model):
     text = models.TextField()
     vector = SearchVectorField(null=True)
+    citation = models.CharField(max_length=128, null=True, blank=True)
+    date = models.CharField(max_length=10, null=True, blank=True)
+    docket = models.CharField(max_length=128, null=True, blank=True)
+    judge = models.CharField(max_length=128, null=True, blank=True)
+    abstract = models.TextField(null=True, blank=True)
+    summary = models.TextField(null=True, blank=True)
     url = models.ForeignKey(URL, on_delete=models.CASCADE)
 
     class Meta:
@@ -33,20 +39,6 @@ class Decision(models.Model):
     def save(self, *args, **kwargs):
         self.vector = SearchVector("text")
         super().save(*args, **kwargs)
-
-
-class DecisionMeta(models.Model):
-    class Meta:
-        verbose_name_plural = "decision metadata"
-
-    citation = models.CharField(max_length=128, null=True, blank=True)
-    date = models.CharField(max_length=10, null=True, blank=True)
-    docket = models.CharField(max_length=128, null=True, blank=True)
-    judge = models.CharField(max_length=128, null=True, blank=True)
-    decision = models.ForeignKey(Decision, on_delete=models.CASCADE)
-
-    def __str__(self) -> str:
-        return self.citation
 
 
 class Condition(models.Model):
