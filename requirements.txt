@@ -4,7 +4,9 @@ django
 django-allauth
 django-debug-toolbar
 django-environ
+numpy
 psycopg2-binary
 requests
 requests-futures
 ruff
+sumy
