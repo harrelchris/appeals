@@ -1,0 +1,31 @@
+{% extends "decisions/base.html" %}
+
+{% block title %}Decisions{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="my-5">
+      <p>Found {{ page_obj.paginator.count }} search results for: <span class="fst-italic">{{ q }}</span></p>
+      {% if decisions %}
+        {% for decision in decisions %}
+          <div class="card my-3">
+            <div class="card-body">
+              <h5 class="card-title">{{ decision.headline|safe }}</h5>
+              <p class="card-text">{{ decision.text|truncatechars:50 }}</p>
+              <a href="{% url 'decisions:detail' pk=decision.id %}" class="btn btn-outline-primary">Read more</a>
+            </div>
+            <div class="card-footer fw-lighter">
+              Relevancy: {{ decision.rank }}
+            </div>
+          </div>
+        {% endfor %}
+
+        {% if is_paginated %}
+          {% include "components/paginator.html" %}
+        {% endif %}
+      {% else %}
+        <p>No decisions found.</p>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

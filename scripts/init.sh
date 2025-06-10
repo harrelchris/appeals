@@ -16,9 +16,9 @@ if [ ! -f ".env" ]; then
     cp dev.env .env
 fi
 
-if [ -f "db.sqlite3" ]; then
-    rm db.sqlite3
-fi
+#if [ -f "db.sqlite3" ]; then
+#    rm db.sqlite3
+#fi
 
 python manage.py makemigrations
 python manage.py migrate
