@@ -24,7 +24,6 @@ class Decision(models.Model):
     date = models.CharField(max_length=10, null=True, blank=True)
     docket = models.CharField(max_length=128, null=True, blank=True)
     judge = models.CharField(max_length=128, null=True, blank=True)
-    abstract = models.TextField(null=True, blank=True)
     summary = models.TextField(null=True, blank=True)
     url = models.ForeignKey(URL, on_delete=models.CASCADE)
 
