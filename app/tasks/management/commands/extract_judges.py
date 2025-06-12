@@ -3,7 +3,7 @@ from django.core.management.base import BaseCommand
 from decisions.models import Decision
 from tasks.models import Task
 
-TASK_NAME = "extract_judge"
+TASK_NAME = "extract_judges"
 
 
 def extract(text):

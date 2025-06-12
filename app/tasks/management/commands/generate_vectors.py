@@ -18,5 +18,5 @@ class Command(BaseCommand):
         task = Task(name=TASK_NAME, success=True)
         task.save()
 
-        message = f"Generated vectors for {count} decisions"
+        message = f"Generated {count} vectors."
         self.stdout.write(self.style.SUCCESS(message))

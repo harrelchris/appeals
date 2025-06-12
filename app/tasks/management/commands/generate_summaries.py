@@ -6,8 +6,9 @@ from sumy.nlp.tokenizers import Tokenizer
 from sumy.parsers.plaintext import PlaintextParser
 from sumy.summarizers.lsa import LsaSummarizer as Summarizer
 from sumy.utils import get_stop_words
+from numpy.linalg import LinAlgError
 
-TASK_NAME = "summarize-decisions"
+TASK_NAME = "generate_summaries"
 LANGUAGE = "english"
 SENTENCES_COUNT = 10
 
@@ -30,14 +31,19 @@ class Command(BaseCommand):
         count = qs.count()
         decisions = list(qs)
 
-        self.stdout.write(f"Updating summary field for {count} decisions...")
+        try:
+            for decision in decisions:
+                decision.summary = summarize(decision.text)
+        except LinAlgError:
+            message = f"Generated {count} summaries."
+            self.stdout.write(self.style.SUCCESS(message))
+            task = Task(name=TASK_NAME, success=False)
+            task.save()
+        else:
+            Decision.objects.bulk_update(decisions, ["summary"])
 
-        for decision in decisions:
-            decision.summary = summarize(decision.text)
+            task = Task(name=TASK_NAME, success=True)
+            task.save()
 
-        Decision.objects.bulk_update(decisions, ["summary"])
-
-        self.stdout.write(self.style.SUCCESS("Done updating summary field."))
-
-        task = Task(name=TASK_NAME, success=True)
-        task.save()
+            message = f"Generated {count} summaries."
+            self.stdout.write(self.style.SUCCESS(message))
