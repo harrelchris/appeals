@@ -1,5 +1,5 @@
-from django.views.generic import DetailView, ListView, TemplateView
-from django.contrib.postgres.search import SearchHeadline, SearchQuery, SearchRank, SearchVector
+from django.views.generic import DetailView, ListView
+from django.contrib.postgres.search import SearchHeadline, SearchQuery, SearchRank
 from django.db.models import F
 
 from decisions.models import Decision
@@ -17,10 +17,6 @@ class DecisionListView(ListView):
     context_object_name = "decisions"
     paginate_by = 50
     ordering = "-date"
-
-
-class DecisionSearchView(TemplateView):
-    template_name = "decisions/search.html"
 
 
 class DecisionResultsView(ListView):
