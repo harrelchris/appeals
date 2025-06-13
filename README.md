@@ -2,9 +2,8 @@
 
 ## Requirements
 
--   [Python](https://www.python.org/)
--   [Node.js](https://nodejs.org/en)
--   [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+- [Python](https://www.python.org/)
+- [Postgres](https://www.postgresql.org/download/)
 
 ## Development
 
@@ -15,10 +14,21 @@ python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
 pip install -r requirements.txt
-cp example.env .env
+cp dev.env .env
 python manage.py makemigrations
 python manage.py migrate
 python manage.py createsuperuser --noinput --username user --email user@email.com
+
+python manage.py loaddata app/decisions/fixtures/urls.json
+python manage.py loaddata app/decisions/fixtures/decisions.json
+
+python manage.py extract_citations
+python manage.py extract_dates
+python manage.py extract_dockets
+python manage.py extract_judges
+
+python manage.py generate_summaries
+python manage.py generate_vectors
 ```
 
 ### Lint
